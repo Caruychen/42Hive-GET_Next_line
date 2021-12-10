@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/10 16:31:04 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/10 16:39:53 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	assign_line(char **s_arr, char **line, int bytes, int fd)
 	else if (bytes == 0 && s_arr[fd] == NULL)
 		return (0);
 	len = 0;
-	while 
+	while ((*s_arr) 
 }
 
 static int	read_file(const int fd, char **buff, int *bytes)
