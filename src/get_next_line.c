@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/11 13:11:26 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/11 16:20:21 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ static int	read_file(const int fd, char *buff, int *bytes)
 	return (*bytes);
 }
 
-static void	store_buff(char **s_arr, char *buff, int bytes, int fd)
+static void	store_buff(char **s, char *buff, int bytes)
 {
 	char	*temp;
 
 	buff[bytes] = '\0';
-	if (s_arr[fd] == NULL)
+	if (*s == NULL)
 	{
-		s_arr[fd] = ft_strdup(buff);
+		*s = ft_strdup(buff);
 		return ;
 	}
-	temp = ft_strjoin(s_arr[fd], buff);
-	ft_strdel(&s_arr[fd]);
-	s_arr[fd] = temp;
+	temp = ft_strjoin(*s, buff);
+	ft_strdel(s);
+	*s = temp;
 }
 
 int	get_next_line(const int fd, char **line)
@@ -70,7 +70,7 @@ int	get_next_line(const int fd, char **line)
 		return (-1);
 	while (read_file(fd, buff, &bytes) > 0)
 	{
-		store_buff(s_arr, buff, bytes, fd);
+		store_buff(&s_arr[fd], buff, bytes);
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
