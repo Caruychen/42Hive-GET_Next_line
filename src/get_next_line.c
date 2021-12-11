@@ -6,28 +6,42 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/10 16:39:53 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/11 13:11:26 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	assign_line(char **s_arr, char **line, int bytes, int fd)
+static int	assign_line(char **s_arr, char **line, int bytes)
 {
 	int		len;
 	char	*temp;
 
 	if (bytes < 0)
 		return (-1);
-	else if (bytes == 0 && s_arr[fd] == NULL)
+	if (bytes == 0 && *s_arr == NULL)
 		return (0);
 	len = 0;
-	while ((*s_arr) 
+	while ((*s_arr)[len] != '\0' && (*s_arr)[len] != '\n')
+		++len;
+	if ((*s_arr)[len] == '\n')
+	{
+		*line = ft_strsub(*s_arr, 0, len);
+		temp = ft_strdup(&((*s_arr)[len + 1]));
+		ft_strdel(s_arr);
+		*s_arr = temp;
+		if (**s_arr == '\0')
+			ft_strdel(s_arr);
+		return (1);
+	}
+	*line = ft_strdup(*s_arr);
+	ft_strdel(s_arr);
+	return (1);
 }
 
-static int	read_file(const int fd, char **buff, int *bytes)
+static int	read_file(const int fd, char *buff, int *bytes)
 {
-	*bytes = read(fd, *buff, BUFF_SIZE);
+	*bytes = read(fd, buff, BUFF_SIZE);
 	return (*bytes);
 }
 
@@ -39,11 +53,11 @@ static void	store_buff(char **s_arr, char *buff, int bytes, int fd)
 	if (s_arr[fd] == NULL)
 	{
 		s_arr[fd] = ft_strdup(buff);
-		return ();
+		return ;
 	}
 	temp = ft_strjoin(s_arr[fd], buff);
 	ft_strdel(&s_arr[fd]);
-	s = temp;
+	s_arr[fd] = temp;
 }
 
 int	get_next_line(const int fd, char **line)
@@ -54,11 +68,11 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd < 0 || line == NULL)
 		return (-1);
-	while (read_file(fd, &buff, &bytes) > 0)
+	while (read_file(fd, buff, &bytes) > 0)
 	{
 		store_buff(s_arr, buff, bytes, fd);
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
-	return (assign_line(s_arr, line, bytes, fd));
+	return (assign_line(&s_arr[fd], line, bytes));
 }
