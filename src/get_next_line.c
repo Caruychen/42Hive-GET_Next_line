@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/11 16:53:27 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/11 17:11:15 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,17 @@ static void	cpy_buff(char **s, char *buff)
 
 static int	push_line(char **s_arr, char **line)
 {
-	int		len;
 	char	*temp;
 
-	len = 0;
-	while ((*s_arr)[len] != '\0' && (*s_arr)[len] != '\n')
-		++len;
-	if ((*s_arr)[len] == '\n')
+	temp = *s_arr;
+	while (*temp != '\0' && *temp != '\n')
+		++temp;
+	if (*temp == '\0')
+		ft_putendl("test");
+	if (*temp == '\n')
 	{
-		*line = ft_strsub(*s_arr, 0, len);
-		temp = ft_strdup(&((*s_arr)[len + 1]));
+		*line = ft_strsub(*s_arr, 0, temp - *s_arr);
+		temp = ft_strdup(++temp);
 		ft_strdel(s_arr);
 		*s_arr = temp;
 		if (**s_arr == '\0')
