@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 13:38:45 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/13 14:27:01 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/13 14:44:13 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int	main(int argc, char **argv)
 	while ((res = get_next_line(fd, &line)))
 	{
 		lines += res;
-		ft_putstr("Line ");
-		ft_putnbr(lines);
-		ft_putstr(": ");
+		//ft_putnbr(lines);
 		ft_putendl(line);
 	}
 	if (close(fd) == -1)
