@@ -1,3 +1,5 @@
+cp ../src/get_next_line.h ./includes/
+
 echo "Compiling..."
 make -s
 make -s fclean

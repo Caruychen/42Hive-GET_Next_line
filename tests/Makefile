@@ -6,7 +6,7 @@
 #    By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 15:14:52 by cchen             #+#    #+#              #
-#    Updated: 2021/12/13 14:24:33 by cchen            ###   ########.fr        #
+#    Updated: 2021/12/13 15:18:15 by cchen            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJECTS = $(patsubst %, $(LIBDIR)/ft_%.o, $(FUNCTIONS1) $(FUNCTIONS2) $(FUNCTION
 all: $(LIBFT) $(NAME)
 
 $(NAME):
-	gcc -Wall -Wextra -Werror test_main.c $(GNL) -I$(SRC) -I$(LIBDIR) -L$(LIBDIR) -lft -o $(NAME)
+	gcc -Wall -Wextra -Werror test_main.c $(GNL) -I./includes -I$(LIBDIR) -L$(LIBDIR) -lft -o $(NAME)
 
 $(LIBDIR)/%.o: $(lIBDIR)/%.c
 	gcc -Wall -Wextra -Werror -c $(CFLAGS) -I$(LIBDIR) $< -o $@
