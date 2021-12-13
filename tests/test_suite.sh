@@ -1,15 +1,17 @@
 cp ../src/get_next_line.h ./includes/
-sed 's/BUFF_SIZE 32/BUFF_SIZE 34/g' ./includes/get_next_line.h > ./includes/get_next_line.h
+sed -i.bu 's/BUFF_SIZE .*/BUFF_SIZE 42/g' ./includes/get_next_line.h
+
 echo "Compiling..."
 make -s
 make -s fclean
 make -s clean
 make -s re
+rm ./includes/get_next_line.h.bu
 
 echo "Running test suite"
 find text_files/ -name '*.txt' -type f | sed 's/text_files\/\///g' | sed 's/.txt//g' > file_names
 while read f; do
 	./test "$f".txt > text_files/"$f".user
-	#diff text_files/"$f".txt text_files/"$f".user
+	diff text_files/"$f".txt text_files/"$f".user
 done <file_names
 make fclean
