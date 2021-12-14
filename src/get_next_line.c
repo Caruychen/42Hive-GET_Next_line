@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/14 15:17:34 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/14 15:33:14 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ int	get_next_line(const int fd, char **line)
 	buff[0] = '\0';
 	while (read_line(fd, buff, &bytes) > 0)
 	{
+		ft_putnbr(BUFF_SIZE);
+		ft_putchar(' ');
+		ft_putnbr(FD_MAX);
+		ft_putendl("test");
 		buff[bytes] = '\0';
 		if (cpy_buff(&s_arr[fd], buff) == -1)
 			return (result(&s_arr[fd], line, -1));
