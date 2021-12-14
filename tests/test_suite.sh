@@ -9,9 +9,9 @@ make -s re
 rm ./includes/get_next_line.h.bu
 
 echo "Running test suite"
-find text_files/ -name '*.txt' -type f | sed 's/text_files\/\///g' | sed 's/.txt//g' > file_names
+find text_files/ -name '*.txt' -type f | sed 's/text_files\/\///g' | sed 's/.txt//g' > file_names.txt
 while read f; do
-	./test "$f".txt > text_files/"$f".user
+	./test 1 text_files/"$f".txt text_files/"$f".user
 	diff text_files/"$f".txt text_files/"$f".user
-done <file_names
+done <file_names.txt
 make fclean
