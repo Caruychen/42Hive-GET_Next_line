@@ -1,4 +1,4 @@
-cp ../src/includes/get_next_line.h ./includes/
+cp ../includes/get_next_line.h ./includes/
 sed -i.bu 's/BUFF_SIZE .*/BUFF_SIZE 10000000/g' ./includes/get_next_line.h
 
 echo "Compiling..."
