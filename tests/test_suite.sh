@@ -9,9 +9,9 @@ COMPARE_FILES(){
 	result=$(diff $arg1 $arg2)
 	if [[ -n "$result" ]]
 	then
-	  echo "${RED}NOT OK!${NC}"
+	  printf "${RED}NOT OK!${NC}"
 	else
-	  echo "${GREEN}OK!${NC}"
+	  printf "${GREEN}OK!${NC}"
 	fi
 }
 
@@ -30,10 +30,22 @@ NO_NEWLINE(){
 	fi
 }
 
+CHECK_LEAKS(){
+	arg1=$1
+	arg2=$2
+	nl=$3
+	valgrind --log-file="vallog" ./test $nl text_files/$arg1/$arg2.txt
+	cat vallog | grep -e 'definitely' -e 'indirectly' | sed 's/.*: //g' | sed 's/ .*//g' > leakcheck
+	leaks=$(awk '{ sum += $1 } END { print sum }' leakcheck)
+	printf " Leaks: $leaks"
+	rm vallog
+	rm leakcheck
+}
+
 LOOP_TEST_FILES(){
 	arg=$1
 	while read f; do
-		printf "Testing $f from stdout:	"
+		printf "\nTesting $f from stdout:	"
 		if [[ "$f" == *d4* || "$f" == *d5* || "$f" == *d6* ]]
 		then
 			nl=0
@@ -44,7 +56,7 @@ LOOP_TEST_FILES(){
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".std
 	done <file_names.txt
 	while read f; do
-		printf "Testing $f from file:	"
+		printf "\nTesting $f from file:	"
 		if [[ "$f" == *d4* || "$f" == *d5* || "$f" == *d6* ]]
 		then
 			nl=0
@@ -53,6 +65,7 @@ LOOP_TEST_FILES(){
 		fi
 		./test $nl text_files/$arg/"$f".txt
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".output
+		CHECK_LEAKS $arg $f $nl
 	done <file_names.txt
 }
 
@@ -65,19 +78,19 @@ echo "Compiling..."
 make -s
 
 echo "Running test suite...\n"
-echo "${YELLOW}--- Checking Basic tests ---${NC}"
+echo "\n${YELLOW}--- Checking Basic tests ---${NC}"
 GET_INPUTS basic
 LOOP_TEST_FILES basic
 
-echo "${YELLOW}--- Checking Middle tests ---${NC}"
+echo "\n${YELLOW}--- Checking Middle tests ---${NC}"
 GET_INPUTS middle
 LOOP_TEST_FILES middle
 
-echo "${YELLOW}--- Checking Advanced tests ---${NC}"
+echo "\n${YELLOW}--- Checking Advanced tests ---${NC}"
 GET_INPUTS advanced
 LOOP_TEST_FILES advanced
 
-echo "${YELLOW}--- Checking Error  tests ---${NC}"
+echo "\n${YELLOW}--- Checking Error  tests ---${NC}"
 printf "Testing arbitrary fd = 42:	"
 ./test 2
 res="$?"
@@ -87,7 +100,4 @@ then
 else
   echo "${GREEN}OK!${NC}"
 fi
-
-valgrind --log-file="leakcheck" ./test 0 text_files/basic/basic1.txt
-cat leakcheck | grep -e 'definitely' -e 'indirectly'
 make fclean
