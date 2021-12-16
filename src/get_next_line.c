@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/14 16:50:14 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/16 16:46:04 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static int	read_line(const int fd, char *buff, int *bytes)
 {
-	if (ft_strchr(buff, '\n'))
-		return (0);
 	*bytes = read(fd, buff, BUFF_SIZE);
 	return (*bytes);
 }
@@ -87,12 +85,13 @@ int	get_next_line(const int fd, char **line)
 
 	if (fd < 0 || line == NULL)
 		return (-1);
-	buff[0] = '\0';
 	while (read_line(fd, buff, &bytes) > 0)
 	{
 		buff[bytes] = '\0';
 		if (cpy_buff(&s_arr[fd], buff) == -1)
 			return (result(&s_arr[fd], line, -1));
+		if (ft_strchr(buff, '\n'))
+			break ;
 	}
 	return (result(&s_arr[fd], line, bytes));
 }
