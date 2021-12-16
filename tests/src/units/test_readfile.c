@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test1.c                                            :+:      :+:    :+:   */
+/*   test_readfile.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:45:12 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/14 16:53:11 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/16 10:19:11 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "testgnl.h"
 
-int	test1(const char *arg1, const char *arg2)
+int	test_readfile(const char *arg1, const char *arg2)
 {
 	int		fd_src;
 	int		fd_dst;

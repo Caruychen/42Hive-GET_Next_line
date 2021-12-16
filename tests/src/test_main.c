@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 13:38:45 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/14 16:39:29 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/16 10:40:12 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	if (argc < 2)
 	{
-		ft_putendl("Error: Need to enter test with argument");
+		test_stdout();
 		return (1);
 	}
 	if (atoi(argv[1]) == 1)
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 			ft_putendl("Error: Need to enter test num with 2 text file names");
 			return (1);
 		}
-		test1(argv[2], argv[3]);
+		test_readfile(argv[2], argv[3]);
 	}
 	return (0);
 }
