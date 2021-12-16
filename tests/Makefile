@@ -6,7 +6,7 @@
 #    By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 15:14:52 by cchen             #+#    #+#              #
-#    Updated: 2021/12/16 10:40:46 by cchen            ###   ########.fr        #
+#    Updated: 2021/12/16 16:57:51 by cchen            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRC = ../src
 NAME = test
 DEBUG = testdebug
 GNL = $(SRC)/get_next_line.c
-UNITS = test_readfile test_stdout
+UNITS = test_readfile test_stdout test_error
 TESTS = $(patsubst %, ./src/units/%.c, $(UNITS))
 LIBDIR = $(SRC)/libft
 LIBFT = $(LIBDIR)/libft.a

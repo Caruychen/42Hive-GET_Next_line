@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:45:12 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/16 13:43:59 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/16 16:23:38 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_resuffix(const char *argv, const char *str)
 	return (dst);
 }
 
-int	test_readfile(const char *argv)
+int	test_readfile(const char *argv, void (f)(char const *, int))
 {
 	int		fd_src;
 	int		fd_dst;
@@ -44,7 +44,7 @@ int	test_readfile(const char *argv)
 	}
 	while ((res = get_next_line(fd_src, &line)))
 	{
-		ft_putendl_fd(line, fd_dst);
+		f(line, fd_dst);
 		ft_strdel(&line);
 	}
 	free(dstname);

@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_stdout.c                                      :+:      :+:    :+:   */
+/*   test_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 10:35:46 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/16 16:30:08 by cchen            ###   ########.fr       */
+/*   Created: 2021/12/16 16:49:21 by cchen             #+#    #+#             */
+/*   Updated: 2021/12/16 16:51:09 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "testgnl.h"
 
-int	test_stdout(void (f)(char const *))
+int	test_error(void)
 {
 	char	*line;
 	int		res;
 
-	while ((res = get_next_line(fileno(stdin), &line)))
-	{
-		f(line);
-		ft_strdel(&line);
-	}
+	res = get_next_line(42, &line);
+	if (res != -1)
+		return (1);
 	return (0);
 }
