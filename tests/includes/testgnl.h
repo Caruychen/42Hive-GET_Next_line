@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:11 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/16 10:43:39 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/16 13:16:29 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "libft.h"
 # include <fcntl.h>
 
-int	test_readfile(const char *arg1, const char *arg2);
+int	test_readfile(const char *argv);
 int	test_stdout(void);
 
 #endif
