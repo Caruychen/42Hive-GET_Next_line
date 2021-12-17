@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:11 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/17 13:20:56 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/17 14:22:08 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 int	test_readfile(const char *argv, void (f)(char const *, int));
 int	test_stdout(void (f)(char const *));
 int	test_error(void);
-int	test_readmultifile(void);
+int	test_multifile(void);
 
 #endif

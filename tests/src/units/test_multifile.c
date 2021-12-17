@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 13:03:14 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/17 13:20:35 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/17 14:27:35 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	run_gnl(int fs, int fd)
 {
 	char	*line;
+	int		res;
 
 	res = get_next_line(fs, &line);
 	ft_putendl_fd(line, fd);
@@ -22,7 +23,7 @@ static int	run_gnl(int fs, int fd)
 	return (res);
 }
 
-int	test_readmultifile(void)
+int	test_multifile(void)
 {
 	int		fs1;
 	int		fs2;
@@ -35,9 +36,9 @@ int	test_readmultifile(void)
 	fs1 = open("text_files/bonus/multi1.txt", O_RDONLY);
 	fs2 = open("text_files/bonus/multi2.txt", O_RDONLY);
 	fs3 = open("text_files/bonus/multi3.txt", O_RDONLY);
-	fd1 = open("text_files/bonus/multi1.output" O_CREAT|O_TRUNC|O_RDWR, 0666)
-	fd2 = open("text_files/bonus/multi2.output" O_CREAT|O_TRUNC|O_RDWR, 0666)
-	fd3 = open("text_files/bonus/multi3.output" O_CREAT|O_TRUNC|O_RDWR, 0666)
+	fd1 = open("text_files/bonus/multi1.output", O_CREAT|O_TRUNC|O_RDWR, 0666);
+	fd2 = open("text_files/bonus/multi2.output", O_CREAT|O_TRUNC|O_RDWR, 0666);
+	fd3 = open("text_files/bonus/multi3.output", O_CREAT|O_TRUNC|O_RDWR, 0666);
 	if (fs1 == -1 || fs2 == -1 || fs3 == -1 || fd1 == -1 || fd2 == -1 || fd3 == -1)
 	{
 		ft_putendl("Error while opening files.");
