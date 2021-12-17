@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:45:12 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/16 16:23:38 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/17 14:15:19 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	test_readfile(const char *argv, void (f)(char const *, int))
 	{
 		f(line, fd_dst);
 		ft_strdel(&line);
+		if (res == -1)
+			return (res);
 	}
 	free(dstname);
 	if (close(fd_src) == -1 || close(fd_dst) == -1)
