@@ -50,7 +50,7 @@ LOOP_TEST_FILES(){
 		else
 			nl=1
 		fi
-		CMD="cat text_files/$arg/"$f".txt | ./test $nl > text_files/$arg/"$f".std"
+		CMD="cat text_files/$arg/"$f".txt | ./testdbg $nl > text_files/$arg/"$f".std"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".std
 		CHECK_LEAKS $CMD
@@ -63,7 +63,7 @@ LOOP_TEST_FILES(){
 		else
 			nl=1
 		fi
-		CMD="./test $nl text_files/$arg/"$f".txt"
+		CMD="./testdbg $nl text_files/$arg/"$f".txt"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".output
 		CHECK_LEAKS $CMD
@@ -76,7 +76,7 @@ sed -i.bu 's/BUFF_SIZE .*/BUFF_SIZE 8/g' ./includes/get_next_line.h
 rm ./includes/get_next_line.h.bu
 
 echo "Compiling..."
-make -s
+make alldbg -s
 
 echo "Running test suite...\n"
 echo "${YELLOW}--- Checking Basic tests ---${NC}"
@@ -92,8 +92,8 @@ GET_INPUTS advanced
 LOOP_TEST_FILES advanced
 
 echo "\n${YELLOW}--- Checking Error  tests ---${NC}"
-printf "Testing arbitrary fd = 42:	"
-CMD="./test 2"
+echo -n "Testing arbitrary fd = 42:	"
+CMD="./testdbg 2"
 eval $CMD
 res="$?"
 if [[ "$res" -ne 0 ]]
@@ -103,4 +103,17 @@ else
   echo -n "${GREEN}OK!${NC}"
 fi
 CHECK_LEAKS $CMD
+
+echo "\n${YELLOW}--- Checking Multi-file test ---${NC}"
+echo -n "Testing three sample files...	"
+CMD="./testdbg 3"
+eval $CMD
+CHECK_LEAKS $CMD
+echo -n "File 1 diff: "
+COMPARE_FILES text_files/bonus/multi1.txt text_files/bonus/multi1.output
+echo -n "\nFile 2 diff: "
+COMPARE_FILES text_files/bonus/multi2.txt text_files/bonus/multi2.output
+echo -n "\nFile 3 diff: "
+COMPARE_FILES text_files/bonus/multi3.txt text_files/bonus/multi3.output
+echo ""
 make fclean

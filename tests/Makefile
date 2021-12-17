@@ -6,13 +6,13 @@
 #    By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 15:14:52 by cchen             #+#    #+#              #
-#    Updated: 2021/12/17 14:20:08 by cchen            ###   ########.fr        #
+#    Updated: 2021/12/17 15:54:43 by cchen            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = ../src
 NAME = test
-DEBUG = testdebug
+DEBUG = testdbg
 GNL = $(SRC)/get_next_line.c
 UNITS = test_readfile test_stdout test_error test_multifile
 TESTS = $(patsubst %, ./src/units/%.c, $(UNITS))

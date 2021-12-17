@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 13:03:14 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/17 14:27:35 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/17 16:00:38 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ static int	run_gnl(int fs, int fd)
 	int		res;
 
 	res = get_next_line(fs, &line);
-	ft_putendl_fd(line, fd);
-	ft_strdel(&line);
+	if (res)
+	{
+		ft_putendl_fd(line, fd);
+		ft_strdel(&line);
+	}
 	return (res);
 }
 
@@ -47,8 +50,8 @@ int	test_multifile(void)
 	while (res)
 	{
 		res = run_gnl(fs1, fd1);
-		res = res || run_gnl(fs2, fd2);
-		res = res || run_gnl(fs3, fd3);
+		res = run_gnl(fs2, fd2) || res;
+		res = run_gnl(fs3, fd3) || res;
 	}
 	if (close(fs1) == -1 || close(fs2) == -1 || close(fs3) == -1 ||
 		close(fd1) == -1 || close(fd2) == -1 || close(fd3) == -1)
