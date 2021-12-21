@@ -10,9 +10,9 @@ COMPARE_FILES(){
 	result=$(diff $arg1 $arg2)
 	if [[ -n "$result" ]]
 	then
-	  printf "${RED}NOT OK!${NC}"
+	  echo "${RED}NOT OK!${NC}"
 	else
-	  printf "${GREEN}OK!${NC}"
+	  echo "${GREEN}OK!${NC}"
 	fi
 }
 
@@ -53,7 +53,6 @@ LOOP_TEST_FILES(){
 		CMD="cat text_files/$arg/"$f".txt | ./testdbg $nl > text_files/$arg/"$f".std"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".std
-		CHECK_LEAKS $CMD
 	done <file_names.txt
 	while read f; do
 		echo -n "Testing $f from file:	"
@@ -66,7 +65,6 @@ LOOP_TEST_FILES(){
 		CMD="./testdbg $nl text_files/$arg/"$f".txt"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".output
-		CHECK_LEAKS $CMD
 	done <file_names.txt
 }
 
@@ -74,6 +72,7 @@ echo "Setting BUFF_SIZE to 8"
 cp ../includes/get_next_line.h ./includes/
 sed -i.bu 's/BUFF_SIZE .*/BUFF_SIZE 8/g' ./includes/get_next_line.h
 rm ./includes/get_next_line.h.bu
+rm -rf ./text_files/**/*.std ./text_files/**/*.output
 
 echo "Compiling..."
 make alldbg -s
@@ -102,13 +101,11 @@ then
 else
   echo -n "${GREEN}OK!${NC}"
 fi
-CHECK_LEAKS $CMD
 
 echo "\n${YELLOW}--- Checking Multi-file test ---${NC}"
 echo -n "Testing three sample files...	"
 CMD="./testdbg 3"
 eval $CMD
-CHECK_LEAKS $CMD
 echo -n "File 1 diff: "
 COMPARE_FILES text_files/bonus/multi1.txt text_files/bonus/multi1.output
 echo -n "\nFile 2 diff: "
