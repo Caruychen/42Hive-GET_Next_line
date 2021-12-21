@@ -6,92 +6,83 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/16 16:46:04 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/21 16:59:26 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	read_line(const int fd, char *buff, int *bytes)
+static int	push_line(t_vec *buff, char **line)
 {
-	*bytes = read(fd, buff, BUFF_SIZE);
-	return (*bytes);
-}
+	size_t	index;
 
-static int	cpy_buff(char **s, char *buff)
-{
-	char	*temp;
-
-	if (*s == NULL)
+	index = 0;
+	while (((char*)buff->memory)[index] != '\n' && index < buff->len)
+		++index;
+	if (((char*)buff->memory)[index] == '\n')
 	{
-		*s = ft_strdup(buff);
-		return (-(*s == NULL));
-	}
-	temp = ft_strjoin(*s, buff);
-	free(*s);
-	*s = temp;
-	return (-(*s == NULL));
-}
-
-static int	push_line(char **s, char **line)
-{
-	char	*temp;
-
-	temp = *s;
-	while (*temp != '\0' && *temp != '\n')
-		++temp;
-	if (*temp == '\n')
-	{
-		*line = ft_strsub(*s, 0, temp - *s);
-		temp = ft_strdup(++temp);
-		free(*s);
-		*s = temp;
-		if (*line == NULL || *s == NULL)
+		*line = ft_strsub(buff->memory, 0, index);
+		if (!*line)
 			return (-1);
-		if (**s == '\0')
-			ft_strdel(s);
+		if (index == buff->len)
+		{
+			buff->len = 0;
+			ft_vecfree(buff);
+		}
+		else
+		{
+			buff->len = buff->len - (index + 1);
+			ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
+		}
 		return (1);
 	}
-	*line = ft_strdup(*s);
-	ft_strdel(s);
-	if (*line == NULL)
+	*line = ft_strsub(buff->memory, 0, buff->len);
+	ft_vecfree(buff);
+	if (!*line)
 		return (-1);
 	return (1);
 }
 
-static int	result(char **s, char **line, int bytes)
+static int	result(t_vec *buff, char **line, int bytes)
 {
 	int	result;
 
 	if (bytes < 0)
 	{
-		if (*s)
-			ft_strdel(s);
+		ft_vecfree(buff);
 		return (-1);
 	}
-	if (bytes == 0 && *s == NULL)
+	if (bytes == 0 && !buff->memory)
 		return (0);
-	result = push_line(s, line);
-	if (result == -1 && *s)
-		ft_strdel(s);
+	result = push_line(buff, line);
+	if (result == -1 && buff->memory)
+		ft_vecfree(buff);
 	return (result);
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	int			bytes;
-	static char	*s_arr[FD_MAX];
-	char		buff[BUFF_SIZE + 1];
+	int				bytes;
+	static t_vec	vectors[FD_MAX];
+	t_vec			*buff;
+	size_t			len;
 
-	if (fd < 0 || line == NULL)
+	if (fd < 0 || !line)
 		return (-1);
-	while (read_line(fd, buff, &bytes) > 0)
+	buff = &vectors[fd];
+	if (!buff->memory)
+		ft_vecnew(buff, BUFF_SIZE, sizeof(char));
+	while (1)
 	{
-		buff[bytes] = '\0';
-		if (cpy_buff(&s_arr[fd], buff) == -1)
-			return (result(&s_arr[fd], line, -1));
-		if (ft_strchr(buff, '\n'))
+		len = buff->len * buff->elem_size;
+		if (buff->alloc_size - len < BUFF_SIZE)
+			ft_vecresize(buff, buff->alloc_size * 2);
+		bytes = read(fd, (char *)buff->memory + len, BUFF_SIZE);
+		if (bytes <= 0)
+			break ;
+		buff->len += bytes / buff->elem_size;
+		if (ft_strchr((char *)buff->memory + len, '\n'))
 			break ;
 	}
-	return (result(&s_arr[fd], line, bytes));
+	return (result(buff, line, bytes));
 }

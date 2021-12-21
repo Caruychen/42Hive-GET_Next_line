@@ -1,7 +1,3 @@
-advanced1
-advanced2
-advanced3
-advanced4
-advanced5
-advanced6
-advanced7
+basic1
+basic2
+basic3
