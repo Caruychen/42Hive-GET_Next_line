@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/21 21:09:09 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/21 22:19:38 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static int	push_line(t_vec *buff, char **line)
 	if (!*line)
 		return (-1);
 	if (index == buff->len)
-		buff->len = 0;
-	else
 	{
-		buff->len = buff->len - (index + 1);
-		ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
+		buff->len = 0;
+		return (1);
 	}
+	buff->len = buff->len - (index + 1);
+	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
 	return (1);
 }
 
@@ -41,17 +41,14 @@ static int	result(t_vec *buff, char **line, int bytes)
 		ft_vecfree(buff);
 		return (-1);
 	}
-	if (bytes == 0)
+	if (bytes == 0 && buff->len == 0)
 	{
-		if (!buff->memory)
-			return (0);
-		push_line(buff, line);
-		ft_vecfree(buff);
-		//FIX!!!
-		return (1);
+		if (buff->memory)
+			ft_vecfree(buff);
+		return (0);
 	}
 	result = push_line(buff, line);
-	if (result == -1 && buff->memory)
+	if (result == 0 || (result == -1 && buff->memory))
 		ft_vecfree(buff);
 	return (result);
 }
