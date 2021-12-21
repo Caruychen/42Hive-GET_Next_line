@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/21 16:59:26 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/21 21:09:09 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,16 @@ static int	push_line(t_vec *buff, char **line)
 	index = 0;
 	while (((char*)buff->memory)[index] != '\n' && index < buff->len)
 		++index;
-	if (((char*)buff->memory)[index] == '\n')
-	{
-		*line = ft_strsub(buff->memory, 0, index);
-		if (!*line)
-			return (-1);
-		if (index == buff->len)
-		{
-			buff->len = 0;
-			ft_vecfree(buff);
-		}
-		else
-		{
-			buff->len = buff->len - (index + 1);
-			ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
-		}
-		return (1);
-	}
-	*line = ft_strsub(buff->memory, 0, buff->len);
-	ft_vecfree(buff);
+	*line = ft_strsub(buff->memory, 0, index);
 	if (!*line)
 		return (-1);
+	if (index == buff->len)
+		buff->len = 0;
+	else
+	{
+		buff->len = buff->len - (index + 1);
+		ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
+	}
 	return (1);
 }
 
@@ -52,8 +41,15 @@ static int	result(t_vec *buff, char **line, int bytes)
 		ft_vecfree(buff);
 		return (-1);
 	}
-	if (bytes == 0 && !buff->memory)
-		return (0);
+	if (bytes == 0)
+	{
+		if (!buff->memory)
+			return (0);
+		push_line(buff, line);
+		ft_vecfree(buff);
+		//FIX!!!
+		return (1);
+	}
 	result = push_line(buff, line);
 	if (result == -1 && buff->memory)
 		ft_vecfree(buff);
@@ -81,7 +77,7 @@ int	get_next_line(const int fd, char **line)
 		if (bytes <= 0)
 			break ;
 		buff->len += bytes / buff->elem_size;
-		if (ft_strchr((char *)buff->memory + len, '\n'))
+		if (ft_memchr(buff->memory + len, '\n', bytes))
 			break ;
 	}
 	return (result(buff, line, bytes));
