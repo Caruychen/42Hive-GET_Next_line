@@ -6,11 +6,23 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/22 11:25:48 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/22 12:00:33 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int	buff_reset(t_vec *buff, size_t index)
+{
+	if (index == buff->len)
+	{
+		buff->len = 0;
+		return (1);
+	}
+	buff->len = buff->len - (index + 1);
+	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
+	return (1);
+}
 
 static int	push_line(t_vec *buff, char **line)
 {
@@ -25,14 +37,7 @@ static int	push_line(t_vec *buff, char **line)
 		ft_vecfree(buff);
 		return (-1);
 	}
-	if (index == buff->len)
-	{
-		buff->len = 0;
-		return (1);
-	}
-	buff->len = buff->len - (index + 1);
-	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
-	return (1);
+	return (buff_reset(buff, index));
 }
 
 static int	result(t_vec *buff, char **line, int bytes)
@@ -49,7 +54,7 @@ static int	read_line(int fd, t_vec *buff, int *bytes, size_t *offset)
 {
 	*offset = buff->len * buff->elem_size;
 	if (buff->alloc_size - *offset < BUFF_SIZE
-		&& ft_vecresize(buff, buff->alloc_size * 2) == -1)
+		&& ft_vecresize(buff, buff->alloc_size * RESIZE_FACTOR) == -1)
 		return (*bytes = -1);
 	return (*bytes = read(fd, buff->memory + *offset, BUFF_SIZE));
 }
