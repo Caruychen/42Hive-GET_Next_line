@@ -99,18 +99,18 @@ if [[ "$res" -ne 0 ]]
 then
   echo "${RED}NOT OK!${NC}"
 else
-  echo -n "${GREEN}OK!${NC}"
+  echo "${GREEN}OK!${NC}"
 fi
 
 echo "\n${YELLOW}--- Checking Multi-file test ---${NC}"
-echo -n "Testing three sample files...	"
+echo "Testing three sample files...	"
 CMD="./test 3"
 eval $CMD
 echo -n "File 1 diff: "
 COMPARE_FILES text_files/bonus/multi1.txt text_files/bonus/multi1.output
-echo -n "\nFile 2 diff: "
+echo -n "File 2 diff: "
 COMPARE_FILES text_files/bonus/multi2.txt text_files/bonus/multi2.output
-echo -n "\nFile 3 diff: "
+echo -n "File 3 diff: "
 COMPARE_FILES text_files/bonus/multi3.txt text_files/bonus/multi3.output
 echo ""
 make fclean
