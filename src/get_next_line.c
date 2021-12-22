@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/22 12:00:33 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/22 12:05:34 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	push_line(t_vec *buff, char **line)
 
 static int	result(t_vec *buff, char **line, int bytes)
 {
-	if (bytes < 0 || (!bytes && !buff->len))
+	if (bytes < 0 || (bytes == 0 && !buff->len))
 	{
 		ft_vecfree(buff);
 		return (bytes);

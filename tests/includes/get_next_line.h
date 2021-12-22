@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:54:33 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/14 15:27:28 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/22 11:50:42 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define BUFF_SIZE 8
 # define FD_MAX 8192
+# define RESIZE_FACTOR 2
 
 # include <unistd.h>
 # include <stdlib.h>
