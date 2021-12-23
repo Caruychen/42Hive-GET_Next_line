@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/22 12:05:34 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 11:34:09 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	buff_reset(t_vec *buff, size_t index)
 {
-	if (index == buff->len)
+	if (index == buff->len * buff->elem_size)
 	{
 		buff->len = 0;
 		return (1);
 	}
-	buff->len = buff->len - (index + 1);
-	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len);
+	buff->len = buff->len - (index / buff->elem_size + 1);
+	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len * elem->size);
 	return (1);
 }
 
@@ -28,8 +28,8 @@ static int	push_line(t_vec *buff, char **line)
 {
 	size_t	index;
 
-	index = 0;
-	while (((char *)buff->memory)[index] != '\n' && index < buff->len)
+	while (((char *)buff->memory)[index] != '\n'
+		&& index < buff->len * buff->elem_size)
 		++index;
 	*line = ft_strsub(buff->memory, 0, index);
 	if (!*line)
