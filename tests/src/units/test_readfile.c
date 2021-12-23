@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:45:12 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 16:06:42 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 16:23:16 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_resuffix(const char *argv, const char *str)
 	char	*temp;
 	char	*dst;
 
-	len = (unsigned long) strchr(argv, '.') - (unsigned long) argv;
+	len = (unsigned long) (strchr(argv, '.') - argv);
 	temp = ft_strsub(argv, 0, len);
 	dst = ft_strjoin(temp, str);
 	ft_strdel(&temp);
