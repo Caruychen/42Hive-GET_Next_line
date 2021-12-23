@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 12:55:50 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 15:47:57 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	push_line(t_vec *buff, char **line)
 	return (set_buff(buff, index));
 }
 
-static int	result(t_vec *buff, char **line, int bytes)
+static int	result(t_vec *buff, char **line, ssize_t bytes)
 {
 	if (bytes < 0 || (bytes == 0 && !buff->len))
 	{
@@ -52,7 +52,7 @@ static int	result(t_vec *buff, char **line, int bytes)
 	return (push_line(buff, line));
 }
 
-static int	read_line(int fd, t_vec *buff, int *bytes, size_t *offset)
+static int	read_line(int fd, t_vec *buff, ssize_t *bytes, size_t *offset)
 {
 	*offset = buff->len * buff->elem_size;
 	if (buff->alloc_size - *offset < BUFF_SIZE
@@ -65,7 +65,7 @@ int	get_next_line(const int fd, char **line)
 {
 	static t_vec	vectors[FD_MAX];
 	t_vec			*buff;
-	int				bytes;
+	ssize_t			bytes;
 	size_t			offset;
 
 	buff = &vectors[fd];
