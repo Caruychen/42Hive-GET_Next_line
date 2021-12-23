@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 11:54:56 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 12:55:50 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	get_next_line(const int fd, char **line)
 	buff = &vectors[fd];
 	if (fd < 0 || !line)
 		return (-1);
-	if (!buff->memory && ft_vecnew(buff, BUFF_SIZE, sizeof(char)) == -1)
+	if (!buff->memory
+		&& ft_vecnew(buff, BUFF_SIZE / sizeof(char), sizeof(char)) == -1)
 		return (-1);
 	while (read_line(fd, buff, &bytes, &offset) > 0)
 	{
