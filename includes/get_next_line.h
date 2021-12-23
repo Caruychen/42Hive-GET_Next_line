@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:54:33 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 15:27:52 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 15:52:24 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 int	get_next_line(const int fd, char **line);
 

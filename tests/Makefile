@@ -6,7 +6,7 @@
 #    By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 15:14:52 by cchen             #+#    #+#              #
-#    Updated: 2021/12/21 19:56:53 by cchen            ###   ########.fr        #
+#    Updated: 2021/12/23 15:52:56 by cchen            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ all: $(LIBFT) $(NAME)
 alldbg: $(LIBFT) $(DEBUG)
 
 $(NAME):
-	gcc -Wall -Wextra -Werror ./src/test_main.c $(TESTS) $(GNL) -I./includes -I$(LIBDIR) -L$(LIBDIR) -lft -o $(NAME)
+	gcc -Wall -Wextra -Werror -Wpedantic -Wunused -Wconversion -Wunreachable-code -Wtype-limits ./src/test_main.c $(TESTS) $(GNL) -I./includes -I$(LIBDIR) -L$(LIBDIR) -lft -o $(NAME)
 
 $(DEBUG):
 	gcc -Wall -Wextra -Werror -g ./src/test_main.c $(TESTS) $(GNL) -I./includes -I$(LIBDIR) -L$(LIBDIR) -lft -o $(DEBUG)
