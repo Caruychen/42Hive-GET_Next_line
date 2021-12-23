@@ -1,2 +1,3 @@
-text_files/*.user
+text_files/**/*.std
+text_files/**/*.output
 *.dSYM
