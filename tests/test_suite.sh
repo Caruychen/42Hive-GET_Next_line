@@ -50,7 +50,7 @@ LOOP_TEST_FILES(){
 		else
 			nl=1
 		fi
-		CMD="cat text_files/$arg/"$f".txt | ./testdbg $nl > text_files/$arg/"$f".std"
+		CMD="cat text_files/$arg/"$f".txt | ./test $nl > text_files/$arg/"$f".std"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".std
 	done <file_names.txt
@@ -62,7 +62,7 @@ LOOP_TEST_FILES(){
 		else
 			nl=1
 		fi
-		CMD="./testdbg $nl text_files/$arg/"$f".txt"
+		CMD="./test $nl text_files/$arg/"$f".txt"
 		eval $CMD
 		COMPARE_FILES text_files/$arg/"$f".txt text_files/$arg/"$f".output
 	done <file_names.txt
@@ -75,7 +75,7 @@ rm ./includes/get_next_line.h.bu
 rm -rf ./text_files/**/*.std ./text_files/**/*.output
 
 echo "Compiling..."
-make alldbg -s
+make re -s
 
 echo "Running test suite...\n"
 echo "${YELLOW}--- Checking Basic tests ---${NC}"
@@ -92,25 +92,25 @@ LOOP_TEST_FILES advanced
 
 echo "\n${YELLOW}--- Checking Error  tests ---${NC}"
 echo -n "Testing arbitrary fd = 42:	"
-CMD="./testdbg 2"
+CMD="./test 2"
 eval $CMD
 res="$?"
 if [[ "$res" -ne 0 ]]
 then
   echo "${RED}NOT OK!${NC}"
 else
-  echo -n "${GREEN}OK!${NC}"
+  echo "${GREEN}OK!${NC}"
 fi
 
 echo "\n${YELLOW}--- Checking Multi-file test ---${NC}"
-echo -n "Testing three sample files...	"
-CMD="./testdbg 3"
+echo "Testing three sample files...	"
+CMD="./test 3"
 eval $CMD
 echo -n "File 1 diff: "
 COMPARE_FILES text_files/bonus/multi1.txt text_files/bonus/multi1.output
-echo -n "\nFile 2 diff: "
+echo -n "File 2 diff: "
 COMPARE_FILES text_files/bonus/multi2.txt text_files/bonus/multi2.output
-echo -n "\nFile 3 diff: "
+echo -n "File 3 diff: "
 COMPARE_FILES text_files/bonus/multi3.txt text_files/bonus/multi3.output
 echo ""
 make fclean
