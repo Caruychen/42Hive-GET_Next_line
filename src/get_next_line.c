@@ -6,13 +6,13 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 11:34:09 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/23 11:54:56 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	buff_reset(t_vec *buff, size_t index)
+static int	set_buff(t_vec *buff, size_t index)
 {
 	if (index == buff->len * buff->elem_size)
 	{
@@ -20,7 +20,8 @@ static int	buff_reset(t_vec *buff, size_t index)
 		return (1);
 	}
 	buff->len = buff->len - (index / buff->elem_size + 1);
-	ft_memcpy(buff->memory, &buff->memory[index + 1], buff->len * elem->size);
+	ft_memcpy(buff->memory, &buff->memory[index + 1],
+		buff->len * buff->elem_size);
 	return (1);
 }
 
@@ -28,6 +29,7 @@ static int	push_line(t_vec *buff, char **line)
 {
 	size_t	index;
 
+	index = 0;
 	while (((char *)buff->memory)[index] != '\n'
 		&& index < buff->len * buff->elem_size)
 		++index;
@@ -37,7 +39,7 @@ static int	push_line(t_vec *buff, char **line)
 		ft_vecfree(buff);
 		return (-1);
 	}
-	return (buff_reset(buff, index));
+	return (set_buff(buff, index));
 }
 
 static int	result(t_vec *buff, char **line, int bytes)
