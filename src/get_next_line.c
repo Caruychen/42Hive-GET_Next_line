@@ -6,23 +6,22 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:45:43 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/23 16:03:45 by cchen            ###   ########.fr       */
+/*   Updated: 2021/12/29 15:31:56 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-static int	set_buff(t_vec *buff, size_t index)
+static void	set_buff(t_vec *buff, size_t index)
 {
-	if (index == buff->len * buff->elem_size)
+	if (index == buff->len)
 	{
 		buff->len = 0;
-		return (1);
+		return ;
 	}
-	buff->len = buff->len - (index / buff->elem_size + 1);
-	ft_memcpy(buff->memory, (char *)buff->memory + index + 1,
-		buff->len * buff->elem_size);
-	return (1);
+	buff->len = buff->len - (index + 1);
+	ft_memcpy(buff->memory, (char *)buff->memory + index + 1, buff->len);
 }
 
 static int	push_line(t_vec *buff, char **line)
@@ -30,8 +29,7 @@ static int	push_line(t_vec *buff, char **line)
 	size_t	index;
 
 	index = 0;
-	while (((char *)buff->memory)[index] != '\n'
-		&& index < buff->len * buff->elem_size)
+	while (((char *)buff->memory)[index] != '\n' && index < buff->len)
 		++index;
 	*line = ft_strsub(buff->memory, 0, index);
 	if (!*line)
@@ -39,7 +37,8 @@ static int	push_line(t_vec *buff, char **line)
 		ft_vecfree(buff);
 		return (-1);
 	}
-	return (set_buff(buff, index));
+	set_buff(buff, index);
+	return (1);
 }
 
 static long	result(t_vec *buff, char **line, long bytes)
@@ -52,13 +51,12 @@ static long	result(t_vec *buff, char **line, long bytes)
 	return (push_line(buff, line));
 }
 
-static long	read_line(int fd, t_vec *buff, long *bytes, size_t *offset)
+static long	read_line(int fd, t_vec *buff, long *bytes)
 {
-	*offset = buff->len * buff->elem_size;
-	if (buff->alloc_size - *offset < BUFF_SIZE
+	if (buff->alloc_size - buff->len < BUFF_SIZE
 		&& ft_vecresize(buff, buff->alloc_size * RESIZE_FACTOR) == -1)
 		return (*bytes = -1);
-	return (*bytes = read(fd, (char *)buff->memory + *offset, BUFF_SIZE));
+	return (*bytes = read(fd, (char *)buff->memory + buff->len, BUFF_SIZE));
 }
 
 int	get_next_line(const int fd, char **line)
@@ -68,15 +66,15 @@ int	get_next_line(const int fd, char **line)
 	long			bytes;
 	size_t			offset;
 
+	if (fd < 0 || fd >= FD_MAX || !line)
+		return (-1);
 	buff = &vectors[fd];
-	if (fd < 0 || !line)
+	if (!buff->memory && ft_vecnew(buff, BUFF_SIZE, sizeof(char)) == -1)
 		return (-1);
-	if (!buff->memory
-		&& ft_vecnew(buff, BUFF_SIZE / sizeof(char), sizeof(char)) == -1)
-		return (-1);
-	while (read_line(fd, buff, &bytes, &offset) > 0)
+	while (read_line(fd, buff, &bytes) > 0)
 	{
-		buff->len += (size_t) bytes / buff->elem_size;
+		offset = buff->len;
+		buff->len += (size_t) bytes;
 		if (ft_memchr((char *)buff->memory + offset, '\n', (size_t) bytes))
 			break ;
 	}
