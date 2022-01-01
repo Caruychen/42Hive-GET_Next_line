@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vecresize.c                                     :+:      :+:    :+:   */
+/*   vec_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 11:06:39 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/21 11:36:45 by cchen            ###   ########.fr       */
+/*   Created: 2021/12/20 12:53:58 by cchen             #+#    #+#             */
+/*   Updated: 2022/01/01 13:31:44 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_vecresize(t_vec *src, size_t target_size)
+int	vec_new(t_vec *dst, size_t init_alloc, size_t elem_size)
 {
-	t_vec	dst;
-	size_t	target_len;
-
-	if (!src)
+	if (!dst || init_alloc == 0 || elem_size == 0)
 		return (-1);
-	target_len = target_size / src->elem_size;
-	if (ft_vecnew(&dst, target_len, src->elem_size) < 0)
+	dst->alloc_size = init_alloc * elem_size;
+	dst->elem_size = elem_size;
+	dst->len = 0;
+	dst->memory = malloc(dst->alloc_size);
+	if (!dst->memory)
+	{
+		dst->alloc_size = 0;
+		dst->elem_size = 0;
 		return (-1);
-	ft_veccopy(&dst, src);
-	dst.len = ft_imin(target_len, src->len);
-	ft_vecfree(src);
-	*src = dst;
-	return (target_size);
+	}
+	return (dst->alloc_size);
 }
