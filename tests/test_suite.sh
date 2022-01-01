@@ -70,7 +70,8 @@ LOOP_TEST_FILES(){
 
 echo "Setting BUFF_SIZE to 8"
 cp ../includes/get_next_line.h ./includes/
-sed -i.bu 's/BUFF_SIZE .*/BUFF_SIZE 8/g' ./includes/get_next_line.h
+sed -i.bu -e 's/BUFF_SIZE .*/BUFF_SIZE 8/g' \
+	-e 's/include "libft\//include "/g' ./includes/get_next_line.h
 rm ./includes/get_next_line.h.bu
 rm -rf ./text_files/**/*.std ./text_files/**/*.output
 
