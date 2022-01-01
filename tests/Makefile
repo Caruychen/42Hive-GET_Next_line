@@ -6,7 +6,7 @@
 #    By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 15:14:52 by cchen             #+#    #+#              #
-#    Updated: 2021/12/23 15:52:56 by cchen            ###   ########.fr        #
+#    Updated: 2022/01/01 13:54:35 by cchen            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,9 @@ FUNCTIONS_VECTOR = vecnew vecfree vecfrom veccopy vecresize
 FUNCTIONS = $(FUNCTIONS1) $(FUNCTIONS2) $(FUNCTIONS_BONUS) $(FUNCTIONS_VECTOR)
 OBJECTS = $(patsubst %, $(LIBDIR)/ft_%.o, $(FUNCTIONS))
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
-alldbg: $(LIBFT) $(DEBUG)
+alldbg: $(DEBUG)
 
 $(NAME):
 	gcc -Wall -Wextra -Werror -Wpedantic -Wunused -Wconversion -Wunreachable-code -Wtype-limits ./src/test_main.c $(TESTS) $(GNL) -I./includes -I$(LIBDIR) -L$(LIBDIR) -lft -o $(NAME)
@@ -42,11 +42,8 @@ $(LIBFT): $(OBJECTS)
 	ar -rcs $(LIBFT) $^
 	ranlib $(LIBFT)
 
-clean:
-	@rm -f $(OBJECTS)
-
-fclean: clean
-	@rm -f $(LIBFT) $(NAME) $(DEBUG)
+fclean:
+	@rm -f $(NAME) $(DEBUG)
 
 re: fclean all
 
