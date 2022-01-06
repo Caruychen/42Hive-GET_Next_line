@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:54:33 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/29 15:35:01 by cchen            ###   ########.fr       */
+/*   Updated: 2022/01/06 14:46:52 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # define RESIZE_FACTOR 2
 
 # include <unistd.h>
-# include <stdlib.h>
 # include "libft/libft.h"
 
 int	get_next_line(const int fd, char **line);
