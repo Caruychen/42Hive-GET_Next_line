@@ -68,15 +68,16 @@ LOOP_TEST_FILES(){
 	done <file_names.txt
 }
 
-echo "Setting BUFF_SIZE to 8"
 cp ../includes/get_next_line.h ./includes/
-sed -i.bu -e 's/BUFF_SIZE .*/BUFF_SIZE 8/g' \
+sed -i.bu -e 's/BUFF_SIZE .*/BUFF_SIZE 256/g' \
 	-e 's/include "libft\//include "/g' ./includes/get_next_line.h
 rm ./includes/get_next_line.h.bu
 rm -rf ./text_files/**/*.std ./text_files/**/*.output
 
 echo "Compiling..."
 make re -s
+
+./test 4
 
 echo "Running test suite...\n"
 echo "${YELLOW}--- Checking Basic tests ---${NC}"

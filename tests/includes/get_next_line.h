@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 8
+# define BUFF_SIZE 256
 # define FD_MAX 8192
 # define RESIZE_FACTOR 2
 

@@ -6,7 +6,7 @@
 /*   By: cchen <cchen@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 13:38:45 by cchen             #+#    #+#             */
-/*   Updated: 2021/12/21 14:02:01 by cchen            ###   ########.fr       */
+/*   Updated: 2022/01/22 18:45:56 by cchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int argc, char **argv)
 			return (test_error());
 		if (*argv[1] == '3')
 			return (test_multifile());
+		if (*argv[1] == '4')
+			printf("BUFF_SIZE: %d\n", BUFF_SIZE);	
 		return (0);
 	}
 	if (*argv[1] == '1')
